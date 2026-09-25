@@ -99,6 +99,10 @@ h1 { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -.02em; }
 .chart .grid-line { stroke: var(--line); stroke-dasharray: 3 4; }
 .chart .line { fill: none; stroke: var(--teal); stroke-width: 2.5; }
 .chart .point { fill: var(--panel); stroke: var(--teal); stroke-width: 2; }
+/* Long ranges: no visible dots, just a wide invisible hover target that lights up under the cursor. */
+.chart .line.dense { stroke-width: 2; }
+.chart .hit { fill: transparent; stroke: none; cursor: pointer; }
+.chart .hit:hover { fill: var(--teal); stroke: var(--panel); stroke-width: 2; }
 .chart .bar { fill: var(--teal); }
 .chart .bar.expenses { fill: var(--grey); }
 .chart .bar-value { fill: var(--text, currentColor); font-weight: 600; }

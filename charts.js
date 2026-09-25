@@ -77,7 +77,7 @@ export function chart(el, points, opts) {
     const base0 = y(Math.max(min, 0));
     const fill = (ps, cls) => (type === 'area' && ps.length > 1 ? `<path class="area ${cls}" d="${smoothPath(ps)} L ${ps[ps.length - 1][0]} ${base0} L ${ps[0][0]} ${base0} Z"/>` : '');
     const expenses = hasSecond ? `${fill(secPts, 'expenses')}<path class="line expenses" d="${smoothPath(secPts)}"/>` : '';
-    marks = `${fill(pts, '')}${expenses}<path class="line" d="${smoothPath(pts)}"/>${data.map((p, i) => `<circle class="point" cx="${pts[i][0]}" cy="${pts[i][1]}" r="${showPoints ? 4 : 8}" ${showPoints ? '' : 'fill="transparent" stroke="none"'}><title>${esc(label(p))}: ${esc(format(values[i]))}${hasSecond ? ` · ${esc(secondLabel)} ${esc(format(seconds[i]))}` : ''}</title></circle>`).join('')}`;
+    marks = `${fill(pts, '')}${expenses}<path class="line${showPoints ? '' : ' dense'}" d="${smoothPath(pts)}"/>${data.map((p, i) => `<circle class="${showPoints ? 'point' : 'hit'}" cx="${pts[i][0]}" cy="${pts[i][1]}" r="${showPoints ? 4 : 8}"><title>${esc(label(p))}: ${esc(format(values[i]))}${hasSecond ? ` · ${esc(secondLabel)} ${esc(format(seconds[i]))}` : ''}</title></circle>`).join('')}`;
   }
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="chart">
     ${ticks.map((t) => `<line class="grid-line" x1="${pad.l}" x2="${W - pad.r}" y1="${y(t)}" y2="${y(t)}"/><text class="axis" x="${pad.l - 8}" y="${y(t) + 4}" text-anchor="end">${esc(tick(t))}</text>`).join('')}
