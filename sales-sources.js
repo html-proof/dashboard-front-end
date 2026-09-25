@@ -1,4 +1,5 @@
 // Sales sources page. All values come from /api/dashboard/salessources; "—" means unavailable.
+import { chart } from './charts.js';
 import { restoreRange, saveRange, bindDateInputs } from './range-store.js';
 const $ = (id) => document.getElementById(id);
 let currency = 'AUD';
@@ -41,6 +42,7 @@ function render(d) {
   $('foot-right').textContent = `Live Shopify data · generated ${new Date(d.generatedAt).toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short' })}`;
   $('ss-total').textContent = money(d.totals.netRevenue);
 
+  chart($('ss-chart'), d.sources, { value: (s) => s.netRevenue, label: (s) => s.source, format: money, type: 'bar', tick: (v) => new Intl.NumberFormat('en-AU', { style: 'currency', currency, notation: 'compact', maximumFractionDigits: 1 }).format(v) });
   const t = d.totals;
   table($('ss-performance'), d.sources, [
     { label: 'Source', value: (s) => s.source },

@@ -92,6 +92,10 @@
         <button type="button" data-tab="fixed">Fixed costs</button>
         <button type="button" data-tab="variable">Variable costs</button>
       </div>
+      <article class="panel chart-panel" data-pane="breakdown">
+        <div class="panel-head"><div><h2>Costs by category</h2><p class="muted">Allocated to the selected days</p></div></div>
+        <div class="chart" id="cost-chart"></div>
+      </article>
       <section class="grid-2" data-pane="breakdown">
         <article class="panel ss-panel"><div class="panel-head"><h2>Fixed costs by category</h2><strong id="fixed-total"></strong></div><div id="fixed-by-cat"></div></article>
         <article class="panel ss-panel"><div class="panel-head"><h2>Variable costs by category</h2><strong id="variable-total"></strong></div><div id="variable-by-cat"></div></article>

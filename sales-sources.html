@@ -93,6 +93,10 @@
         <button type="button" data-tab="settings">Source settings</button>
         <button type="button" data-tab="integrations">Integration plan</button>
       </div>
+      <article class="panel chart-panel" data-pane="performance">
+        <div class="panel-head"><div><h2>Net revenue by channel</h2><p class="muted">Excluding tax, for the selected range</p></div></div>
+        <div class="chart" id="ss-chart"></div>
+      </article>
       <div class="panel ss-panel" data-pane="performance"><div class="panel-head"><h2>Recorded channel revenue</h2><strong id="ss-total"></strong></div><div id="ss-performance"></div></div>
       <div class="panel ss-panel" data-pane="reconciliation" hidden><div class="panel-head"><h2>Daily reconciliation</h2><span class="muted" id="ss-recon-status"></span></div><div class="pr-scroll" id="ss-reconciliation"></div></div>
       <div class="panel ss-panel" data-pane="settings" hidden><div class="panel-head"><h2>Source settings</h2><span class="muted">All synced history</span></div><div id="ss-settings"></div></div>

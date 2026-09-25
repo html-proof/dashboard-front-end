@@ -1,4 +1,5 @@
 // Profit report page. All values come from /api/dashboard/profitreport; "—" means unavailable.
+import { chart } from './charts.js';
 import { restoreRange, saveRange, bindDateInputs } from './range-store.js';
 const $ = (id) => document.getElementById(id);
 let currency = 'AUD';
@@ -54,6 +55,12 @@ function render(d) {
       <td class="pr-metric">${i === 0 ? `<span class="pr-section" title="${esc(section.source)}">${esc(section.title)}</span>` : ''}${esc(row.label)}</td>
       <td class="pr-total num">${esc(fmt(row.total, row.format))}</td>
       ${row.values.map((v) => `<td class="num ${isNum(v) && v < 0 ? 'neg' : ''}">${esc(fmt(v, row.format))}</td>`).join('')}</tr>`).join('')).join('');
+  const rowOf = (label) => d.sections.flatMap((sec) => sec.rows).find((r) => r.label.startsWith(label));
+  const net = rowOf('Net sales'); const exp = rowOf('Total expenses');
+  chart($('profit-chart'), d.periods.map((p, i) => ({ period: p, net: net?.values[i], exp: exp?.values[i] })), {
+    value: (p) => p.net, second: (p) => p.exp, secondLabel: 'expenses', label: (p) => periodLabel(p.period),
+    format: (v) => fmt(v, 'money'), tick: (v) => new Intl.NumberFormat('en-AU', { style: 'currency', currency, notation: 'compact', maximumFractionDigits: 1 }).format(v)
+  });
   $('report').innerHTML = `<table class="pr-table"><thead>${head}</thead><tbody>${body}</tbody></table>`;
 
   const notes = [

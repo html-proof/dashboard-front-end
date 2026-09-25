@@ -277,3 +277,4 @@ small.bad { color: var(--bad); }
 .chart-switch button { padding: 4px 10px; }
 .chart .area { fill: var(--teal); opacity: .18; stroke: none; }
 .chart .area.expenses { fill: var(--grey); opacity: .12; }
+.chart-panel { margin-bottom: 20px; }

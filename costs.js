@@ -1,4 +1,5 @@
 // Costs page. All values come from /api/dashboard/costs; "—" means not reported / not set up.
+import { chart } from './charts.js';
 import { restoreRange, saveRange, bindDateInputs } from './range-store.js';
 const $ = (id) => document.getElementById(id);
 let currency = 'AUD';
@@ -49,6 +50,9 @@ function render(d) {
   ].join('');
   $('cost-note').textContent = `Totals cover the ${d.days} reported days selected above. Advertising spend is shown separately in the profit report. Costs that are not reported or not set up show “—”, never an assumed zero.`;
 
+  const byCat = [...d.fixed.byCategory.map((r) => ({ ...r, name: `Fixed · ${title(r.category)}` })), ...d.variable.byCategory.map((r) => ({ ...r, name: title(r.category) })),
+    { category: 'labour', name: 'Labour', total: d.labour.total }].filter((r) => isNum(r.total) && r.total !== 0);
+  chart($('cost-chart'), byCat, { value: (r) => r.total, label: (r) => r.name, format: (v) => money(v), type: 'bar', tick: (v) => new Intl.NumberFormat('en-AU', { style: 'currency', currency, notation: 'compact', maximumFractionDigits: 1 }).format(v) });
   $('fixed-total').textContent = money(d.fixed.total, 0);
   table($('fixed-by-cat'), d.fixed.byCategory, [{ label: 'Category', value: (r) => title(r.category) }, { label: 'Period total', num: true, value: (r) => money(r.total) }]);
   $('variable-total').textContent = money(d.variable.total, 0);
