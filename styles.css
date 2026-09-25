@@ -100,6 +100,8 @@ h1 { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -.02em; }
 .chart .line { fill: none; stroke: var(--teal); stroke-width: 2.5; }
 .chart .point { fill: var(--panel); stroke: var(--teal); stroke-width: 2; }
 .chart .bar { fill: var(--teal); }
+.chart .bar.expenses { fill: var(--grey); }
+.chart .bar-value { fill: var(--text, currentColor); font-weight: 600; }
 .panel-foot { display: flex; justify-content: space-between; border-top: 1px solid var(--line); margin-top: 16px; padding-top: 16px; font-size: 14px; flex-wrap: wrap; gap: 8px; }
 
 .attention { padding: 26px 0 8px; }

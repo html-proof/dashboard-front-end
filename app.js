@@ -74,6 +74,13 @@ function chart(el, points, { value, format, label = (p) => p.period, type = 'lin
   if (type === 'bar') {
     const w = Math.max(3, Math.min(90, (plotW / data.length) * 0.6));
     marks = data.map((p, i) => `<rect class="bar" rx="2" x="${x(i) - w / 2}" y="${y(values[i])}" width="${w}" height="${Math.max(0, y(min) - y(values[i]))}"><title>${esc(label(p))}: ${esc(format(values[i]))}</title></rect>`).join('');
+  } else if (data.length === 1) {
+    // One day has no line to draw: show the day as side-by-side bars (net sales vs expenses) with value labels.
+    const w = 90; const gap = 14; const cx = x(0);
+    const bar = (v, bx, cls, name) => `<rect class="bar ${cls}" rx="3" x="${bx}" y="${Math.min(y(v), y(0))}" width="${w}" height="${Math.max(1, Math.abs(y(0) - y(v)))}"><title>${esc(name)}: ${esc(format(v))}</title></rect><text class="axis bar-value" x="${bx + w / 2}" y="${Math.min(y(v), y(0)) - 6}" text-anchor="middle">${esc(format(v))}</text>`;
+    marks = hasSecond && isNum(seconds[0])
+      ? bar(values[0], cx - w - gap / 2, '', 'Net sales') + bar(seconds[0], cx + gap / 2, 'expenses', secondLabel || 'Expenses')
+      : bar(values[0], cx - w / 2, '', 'Value');
   } else {
     const pts = values.map((v, i) => [x(i), y(v)]);
     const showPoints = data.length <= 45;
