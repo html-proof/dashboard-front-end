@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Integrations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16M9 16v-5M13 16V8M17 16v-3"/></svg></span>
+      <span class="brand-text">know your<br><strong>numbers.</strong></span>
+    </div>
+    <div class="store-card">
+      <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+      <span><strong id="side-store">Loading…</strong><small id="side-store-meta"></small></span>
+    </div>
+    <p class="nav-label">Workspace</p>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/profit.html">Profit report</a>
+      <a href="/#sales">Sales</a>
+      <a href="/#orders">Orders</a>
+      <a href="/#products">Products</a>
+      <a href="/#customers">Customers</a>
+      <a href="/sales-sources.html">Sales sources</a>
+      <a href="/costs.html">Costs</a>
+      <a href="/staff.html">Staff &amp; hours</a>
+      <a href="/#inventory">Inventory</a>
+      <a href="/#funnel-section">Conversion funnel</a>
+      <a href="/annual-plan.html">Annual plan</a>
+      <a href="/integrations.html" class="active">Integrations</a>
+    </nav>
+    <div class="side-foot">
+      <span class="avatar" id="side-initials">··</span>
+      <span><strong>Shopify</strong><small id="side-sync">Checking…</small></span>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn" id="toggle-side" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+      <span class="crumb">Workspace <span class="sep">›</span> <strong>Integrations</strong></span>
+      <span class="live-badge">YOUR DATA</span>
+      <button class="btn" id="logout" hidden>Sign out</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Bring it all together</p>
+          <h1>Your data, connected.</h1>
+          <p class="sub">One place for your store, advertising and website performance.</p>
+        </div>
+      </section>
+
+      <section class="panel int-shopify" id="shopify"><p class="empty">Loading…</p></section>
+
+      <div class="callout int-note"><span class="int-note-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span>
+        <div><p><strong>Other platform connections</strong></p><p>Connections belong to your store only. Tokens are encrypted on the server and never shown again. Meta Ads imports daily spend automatically; the others save your account now and import once their live connector is enabled.</p></div></div>
+
+      <section class="int-grid" id="grid"></section>
+
+      <section class="panel int-needs">
+        <h2>What a complete report needs</h2>
+        <ul>
+          <li><span class="ok">✓</span><div><strong>Store sales are counted once.</strong> Shopify supplies sales, refunds and tax once. Ad-platform attribution is kept separate.</div></li>
+          <li><span class="ok">✓</span><div><strong>Costs complete the profit picture.</strong> Review product costs, shipping, payment fees and fixed overheads in Costs.</div></li>
+          <li><span class="ok">✓</span><div><strong>One reporting currency and timezone.</strong> Accounts in another currency must be reconciled before figures are combined.</div></li>
+          <li><span class="info">i</span><div><strong>Some live imports are not active yet.</strong> Deputy, Google Ads and Google Analytics need provider authorisation before unattended daily imports.</div></li>
+        </ul>
+      </section>
+
+      <dialog class="dialog" id="setup">
+        <form method="dialog" id="setup-form">
+          <h2 id="setup-title">Set up connection</h2>
+          <label><span id="account-label">Account</span><input id="account" required autocomplete="off"></label>
+          <label id="token-row"><span id="token-label">Access token</span><input id="token" type="password" autocomplete="off"><small class="muted" id="token-hint"></small></label>
+          <p class="form-error" id="setup-error"></p>
+          <div class="actions"><button class="btn" type="button" id="setup-remove">Disconnect</button><span style="flex:1"></span><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn primary" id="setup-save" value="default">Save connection</button></div>
+        </form>
+      </dialog>
+
+      <footer class="foot"><span>KNOW YOUR NUMBERS</span><span>Estimated operating profit · Not cash flow</span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="/integrations.js"></script>
+</body>
+</html>

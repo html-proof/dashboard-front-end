@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Know Your Numbers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16M9 16v-5M13 16V8M17 16v-3"/></svg></span>
+      <span class="brand-text">know your<br><strong>numbers.</strong></span>
+    </div>
+    <div class="store-card">
+      <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+      <span><strong id="side-store">Loading…</strong><small id="side-store-meta"></small></span>
+    </div>
+    <p class="nav-label">Workspace</p>
+    <nav class="nav">
+      <a href="#top" class="active" data-nav>Overview</a>
+      <a href="/profit.html">Profit report</a>
+      <a href="#sales" data-nav>Sales</a>
+      <a href="#orders" data-nav>Orders</a>
+      <a href="#products" data-nav>Products</a>
+      <a href="#customers" data-nav>Customers</a>
+      <a href="/sales-sources.html">Sales sources</a>
+      <a href="/costs.html">Costs</a>
+      <a href="/staff.html">Staff &amp; hours</a>
+      <a href="#inventory" data-nav>Inventory</a>
+      <a href="#funnel-section" data-nav>Conversion funnel</a>
+      <a href="/annual-plan.html">Annual plan</a>
+      <a href="/integrations.html">Integrations</a>
+    </nav>
+    <div class="side-foot">
+      <span class="avatar" id="side-initials">··</span>
+      <span><strong id="side-conn">Shopify</strong><small id="side-sync">Checking connection…</small></span>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn" id="toggle-side" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+      <span class="crumb">Workspace <span class="sep">›</span> <strong>Overview</strong></span>
+      <span class="live-badge" id="live-badge">LIVE · SHOPIFY</span>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Your business, at a glance</p>
+          <h1>Let’s look at your numbers.</h1>
+          <p class="sub">A little clarity for your next big decision.</p>
+        </div>
+        <button class="btn" id="export"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export report</button>
+      </section>
+
+      <div class="info-row">
+        <span id="source-line">ⓘ Loading live data from Shopify…</span>
+        <button class="link" id="refresh">Sync now →</button>
+      </div>
+
+      <form class="range-row" id="filters">
+        <svg class="cal" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <input type="date" name="start_date" id="start" aria-label="From">
+        <span class="to">to</span>
+        <input type="date" name="end_date" id="end" aria-label="To">
+        <select name="preset" id="preset" aria-label="Date range">
+          <option value="custom">Date range</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="last_7_days">Last 7 days</option>
+          <option value="last_30_days" selected>Last 30 days</option>
+          <option value="last_90_days">Last 90 days</option>
+          <option value="this_week">This week</option>
+          <option value="this_month">This month</option>
+          <option value="last_month">Last month</option>
+          <option value="this_quarter">This quarter</option>
+          <option value="last_quarter">Last quarter</option>
+          <option value="this_year">This year</option>
+          <option value="last_year">Last year</option>
+        </select>
+        <label class="check"><input type="checkbox" id="incomplete" checked> Include incomplete days</label>
+      </form>
+      <div class="meta-row"><span id="meta-left"></span><span id="meta-right"></span></div>
+
+      <div class="alert" id="alert" hidden>
+        <span class="alert-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span>
+        <div><strong id="alert-title"></strong><p id="alert-body"></p></div>
+        <span class="pill" id="alert-pill">Action needed</span>
+      </div>
+
+      <section class="kpis" id="kpis"></section>
+
+      <section class="row-2">
+        <article class="panel">
+          <div class="panel-head">
+            <div><h2>The daily picture</h2><p class="muted">Net sales, expenses and the gap between them</p></div>
+            <span class="chip" id="days-chip"></span>
+          </div>
+          <div class="legend"><span class="dot teal"></span>Net sales <span class="dot grey"></span>Total expenses <em id="expense-note" class="muted"></em></div>
+          <div class="chart" id="chart-main"></div>
+          <div class="panel-foot"><span class="muted" id="chart-source"></span><a href="#sales" class="link">View sales detail ↗</a></div>
+        </article>
+        <article class="panel attention">
+          <div class="panel-head"><h2><span class="spark">✳</span> Worth your attention</h2><span class="chip" id="insight-count"></span></div>
+          <ol id="insights"></ol>
+        </article>
+      </section>
+
+      <section class="row-3">
+        <article class="panel">
+          <div class="panel-head"><h2>Where the revenue goes</h2><span class="muted" id="goes-net"></span></div>
+          <div id="goes"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><h2>Store performance</h2><span class="store-glyph">🏬</span></div>
+          <div class="perf" id="perf"></div>
+          <p class="perf-foot" id="perf-foot"></p>
+        </article>
+      </section>
+
+      <!-- Detail sections (targets of the sidebar navigation) -->
+      <h2 class="section-title" id="sales">Sales</h2>
+      <section class="grid-2">
+        <article class="panel"><h3>Orders per period</h3><div class="chart small" id="chart-orders"></div></article>
+        <article class="panel"><h3>Refunds per period</h3><div class="chart small" id="chart-refunds"></div></article>
+        <article class="panel"><h3>Sales by channel</h3><div id="bars-channel"></div></article>
+        <article class="panel"><h3>Sales by location <small>POS location or shipping region</small></h3><div id="bars-location"></div></article>
+        <article class="panel wide"><h3>Sales breakdown</h3><div id="table-report"></div><p class="muted note" id="report-note"></p></article>
+      </section>
+
+      <h2 class="section-title" id="funnel-section">Conversion funnel</h2>
+      <section class="grid-3" id="funnel"></section>
+
+      <h2 class="section-title" id="orders">Orders</h2>
+      <section class="grid-2">
+        <article class="panel wide"><h3>Latest orders</h3><div id="table-orders"></div></article>
+        <article class="panel"><h3>Refunded orders</h3><div id="table-refunded"></div></article>
+        <article class="panel"><h3>Cancelled orders</h3><div id="table-cancelled"></div></article>
+      </section>
+
+      <h2 class="section-title" id="products">Products</h2>
+      <section class="grid-2">
+        <article class="panel"><h3>Sales by product</h3><div id="bars-products"></div></article>
+        <article class="panel"><h3>Top products</h3><div id="table-products"></div></article>
+        <article class="panel wide"><h3>Products sold without a cost price <small>add “Cost per item” in Shopify to include them in profit</small></h3><div id="table-missing-costs"></div></article>
+      </section>
+
+      <h2 class="section-title" id="customers">Customers</h2>
+      <section class="grid-2">
+        <article class="panel"><h3>Customers who ordered</h3><div class="chart small" id="chart-customers"></div></article>
+        <article class="panel"><h3>Top customers</h3><div id="table-customers"></div></article>
+      </section>
+
+      <h2 class="section-title" id="inventory">Inventory</h2>
+      <section class="grid-2">
+        <article class="panel wide"><h3>Low inventory <small>≤ 5 available, active products</small></h3><p class="muted note" id="inventory-note" hidden></p><div id="table-inventory"></div></article>
+      </section>
+
+      <footer class="foot"><span>KNOW YOUR NUMBERS</span><span id="foot-right"></span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

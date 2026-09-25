@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sales Sources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16M9 16v-5M13 16V8M17 16v-3"/></svg></span>
+      <span class="brand-text">know your<br><strong>numbers.</strong></span>
+    </div>
+    <div class="store-card">
+      <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+      <span><strong id="side-store">Loading…</strong><small id="side-store-meta"></small></span>
+    </div>
+    <p class="nav-label">Workspace</p>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/profit.html">Profit report</a>
+      <a href="/#sales">Sales</a>
+      <a href="/#orders">Orders</a>
+      <a href="/#products">Products</a>
+      <a href="/#customers">Customers</a>
+      <a href="/sales-sources.html" class="active">Sales sources</a>
+      <a href="/costs.html">Costs</a>
+      <a href="/staff.html">Staff &amp; hours</a>
+      <a href="/#inventory">Inventory</a>
+      <a href="/#funnel-section">Conversion funnel</a>
+      <a href="/annual-plan.html">Annual plan</a>
+      <a href="/integrations.html">Integrations</a>
+    </nav>
+    <div class="side-foot">
+      <span class="avatar" id="side-initials">··</span>
+      <span><strong>Shopify</strong><small id="side-sync">Checking…</small></span>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn" id="toggle-side" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+      <span class="crumb">Workspace <span class="sep">›</span> <strong>Sales sources</strong></span>
+      <span class="live-badge">LIVE · SHOPIFY</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Sales from everywhere</p>
+          <h1>All your revenue, accounted for.</h1>
+          <p class="sub">Online, in-store, draft orders and social channels, without counting sales twice.</p>
+        </div>
+        <button class="btn" id="export"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export report</button>
+      </section>
+
+      <div class="info-row"><span id="source-line">ⓘ Loading live data from Shopify…</span></div>
+
+      <form class="range-row" id="filters">
+        <svg class="cal" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <input type="date" id="start" aria-label="From">
+        <span class="to">to</span>
+        <input type="date" id="end" aria-label="To">
+        <select id="preset" aria-label="Date range">
+          <option value="custom">Date range</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="last_7_days" selected>Last 7 days</option>
+          <option value="last_30_days">Last 30 days</option>
+          <option value="last_90_days">Last 90 days</option>
+          <option value="this_week">This week</option>
+          <option value="this_month">This month</option>
+          <option value="last_month">Last month</option>
+          <option value="this_quarter">This quarter</option>
+          <option value="last_quarter">Last quarter</option>
+          <option value="this_year">This year</option>
+          <option value="last_year">Last year</option>
+        </select>
+        <label class="check"><input type="checkbox" id="incomplete"> Include incomplete days</label>
+      </form>
+      <div class="meta-row"><span id="meta-left"></span><span id="meta-right"></span></div>
+
+      <div class="ss-head"><div><h2>Every sales channel, one profit picture</h2><p class="muted">Shopify sales records by channel, not bank deposits or payouts.</p></div></div>
+      <div class="callout"><span class="callout-icon">ⓘ</span><div><p>Revenue per channel comes from Shopify's sales report grouped by sales channel, so channels add up to the store total and no sale is counted twice. Orders, refunds and product costs come from synced Shopify orders. Direct costs are product costs only; fixed costs and advertising are not allocated to channels.</p></div></div>
+      <div class="segmented" role="tablist">
+        <button type="button" data-tab="performance" class="on">Source performance</button>
+        <button type="button" data-tab="reconciliation">Daily reconciliation</button>
+        <button type="button" data-tab="settings">Source settings</button>
+        <button type="button" data-tab="integrations">Integration plan</button>
+      </div>
+      <div class="panel ss-panel" data-pane="performance"><div class="panel-head"><h2>Recorded channel revenue</h2><strong id="ss-total"></strong></div><div id="ss-performance"></div></div>
+      <div class="panel ss-panel" data-pane="reconciliation" hidden><div class="panel-head"><h2>Daily reconciliation</h2><span class="muted" id="ss-recon-status"></span></div><div class="pr-scroll" id="ss-reconciliation"></div></div>
+      <div class="panel ss-panel" data-pane="settings" hidden><div class="panel-head"><h2>Source settings</h2><span class="muted">All synced history</span></div><div id="ss-settings"></div></div>
+      <div class="panel ss-panel" data-pane="integrations" hidden><div class="panel-head"><h2>Integration plan</h2></div><div id="ss-integrations"></div></div>
+      <p class="muted note" id="ss-note"></p>
+
+      <footer class="foot"><span>KNOW YOUR NUMBERS</span><span id="foot-right"></span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="/sales-sources.js"></script>
+</body>
+</html>

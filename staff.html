@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff &amp; Hours</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16M9 16v-5M13 16V8M17 16v-3"/></svg></span>
+      <span class="brand-text">know your<br><strong>numbers.</strong></span>
+    </div>
+    <div class="store-card">
+      <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+      <span><strong id="side-store">Loading…</strong><small id="side-store-meta"></small></span>
+    </div>
+    <p class="nav-label">Workspace</p>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/profit.html">Profit report</a>
+      <a href="/#sales">Sales</a>
+      <a href="/#orders">Orders</a>
+      <a href="/#products">Products</a>
+      <a href="/#customers">Customers</a>
+      <a href="/sales-sources.html">Sales sources</a>
+      <a href="/costs.html">Costs</a>
+      <a href="/staff.html" class="active">Staff &amp; hours</a>
+      <a href="/#inventory">Inventory</a>
+      <a href="/#funnel-section">Conversion funnel</a>
+      <a href="/annual-plan.html">Annual plan</a>
+      <a href="/integrations.html">Integrations</a>
+    </nav>
+    <div class="side-foot">
+      <span class="avatar" id="side-initials">··</span>
+      <span><strong>Shopify</strong><small id="side-sync">Checking…</small></span>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn" id="toggle-side" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+      <span class="crumb">Workspace <span class="sep">›</span> <strong>Staff &amp; hours</strong></span>
+      <span class="live-badge">LIVE · SHOPIFY</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Your people, your costs</p>
+          <h1>Staff, hours and expenses.</h1>
+          <p class="sub">Manage staff details and bring labour into your daily profit.</p>
+        </div>
+        
+      </section>
+
+      <div class="info-row"><span id="source-line">ⓘ Loading live data from Shopify…</span></div>
+
+      <form class="range-row" id="filters">
+        <svg class="cal" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <input type="date" id="start" aria-label="From">
+        <span class="to">to</span>
+        <input type="date" id="end" aria-label="To">
+        <select id="preset" aria-label="Date range">
+          <option value="custom">Date range</option>
+          <option value="today">Today</option>
+          <option value="yesterday">Yesterday</option>
+          <option value="last_7_days" selected>Last 7 days</option>
+          <option value="last_30_days">Last 30 days</option>
+          <option value="last_90_days">Last 90 days</option>
+          <option value="this_week">This week</option>
+          <option value="this_month">This month</option>
+          <option value="last_month">Last month</option>
+          <option value="this_quarter">This quarter</option>
+          <option value="last_quarter">Last quarter</option>
+          <option value="this_year">This year</option>
+          <option value="last_year">Last year</option>
+        </select>
+        <label class="check"><input type="checkbox" id="incomplete"> Include incomplete days</label>
+      </form>
+      <div class="meta-row"><span id="meta-left"></span><span id="meta-right"></span></div>
+
+      <section class="cost-cards" id="cards"></section>
+
+      <article class="panel method-panel">
+        <h2>How staff costs enter your profit report</h2>
+        <p class="muted">Choose one method to avoid counting payroll twice.</p>
+        <div class="method-row">
+          <select id="method">
+            <option value="fixed_payroll">Fixed payroll costs (labour entries on the Costs page)</option>
+            <option value="timesheets">Timesheets (shifts recorded here)</option>
+          </select>
+          <button class="btn" id="save-method">Save costing method</button>
+        </div>
+        <p class="muted note" id="method-note"></p>
+      </article>
+
+      <div class="segmented" role="tablist" style="margin-top:26px">
+        <button type="button" data-tab="timesheets" class="on">Timesheets</button>
+        <button type="button" data-tab="staff">Staff records</button>
+        <button type="button" data-tab="clocking">Clocking integration</button>
+      </div>
+
+      <section data-pane="timesheets">
+        <div class="ss-head"><h2>Hours &amp; expenses</h2><button class="btn primary big" id="add-shift">＋ Add shift</button></div>
+        <article class="panel ss-panel"><div id="shift-list"></div></article>
+      </section>
+      <section data-pane="staff" hidden>
+        <div class="ss-head"><h2>Staff records</h2><button class="btn primary big" id="add-staff">＋ Add staff member</button></div>
+        <article class="panel ss-panel"><div id="staff-list"></div></article>
+      </section>
+      <section data-pane="clocking" hidden>
+        <article class="panel ss-panel"><div class="panel-head"><h2>Clocking integration</h2></div><div id="clocking"></div></article>
+      </section>
+
+      <dialog id="shift-dialog" class="dialog">
+        <form id="shift-form">
+          <h2>Add a shift</h2>
+          <label>Staff member<select name="staffId" id="shift-staff" required></select></label>
+          <div class="two">
+            <label>Date<input name="date" type="date" required></label>
+            <label>Paid hours<input name="hours" type="number" min="0.25" max="24" step="0.25" required></label>
+          </div>
+          <div class="two">
+            <label>Hourly rate (blank = staff rate)<input name="rate" type="number" min="0" step="0.01"></label>
+            <label>Extra costs ($)<input name="extraCosts" type="number" min="0" step="0.01"></label>
+          </div>
+          <label>Note<input name="note" maxlength="200"></label>
+          <p class="form-error" id="shift-error" hidden></p>
+          <div class="actions"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Save shift</button></div>
+        </form>
+      </dialog>
+
+      <dialog id="staff-dialog" class="dialog">
+        <form id="staff-form">
+          <h2>Add a staff member</h2>
+          <div class="two">
+            <label>Name<input name="name" required maxlength="120"></label>
+            <label>Role<input name="role" maxlength="80" placeholder="e.g. Printer operator"></label>
+          </div>
+          <div class="two">
+            <label>Hourly rate ($)<input name="hourlyRate" type="number" min="0" step="0.01" required></label>
+            <label>On-costs % (super, payroll tax…)<input name="onCostPct" type="number" min="0" max="200" step="0.1" value="0"></label>
+          </div>
+          <p class="form-error" id="staff-error" hidden></p>
+          <div class="actions"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Save staff member</button></div>
+        </form>
+      </dialog>
+
+      <footer class="foot"><span>KNOW YOUR NUMBERS</span><span id="foot-right"></span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="/staff.js"></script>
+</body>
+</html>

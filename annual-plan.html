@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Annual Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V4M4 20h16M9 16v-5M13 16V8M17 16v-3"/></svg></span>
+      <span class="brand-text">know your<br><strong>numbers.</strong></span>
+    </div>
+    <div class="store-card">
+      <span class="store-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6"/></svg></span>
+      <span><strong id="side-store">Loading…</strong><small id="side-store-meta"></small></span>
+    </div>
+    <p class="nav-label">Workspace</p>
+    <nav class="nav">
+      <a href="/">Overview</a>
+      <a href="/profit.html">Profit report</a>
+      <a href="/#sales">Sales</a>
+      <a href="/#orders">Orders</a>
+      <a href="/#products">Products</a>
+      <a href="/#customers">Customers</a>
+      <a href="/sales-sources.html">Sales sources</a>
+      <a href="/costs.html">Costs</a>
+      <a href="/staff.html">Staff &amp; hours</a>
+      <a href="/#inventory">Inventory</a>
+      <a href="/#funnel-section">Conversion funnel</a>
+      <a href="/annual-plan.html" class="active">Annual plan</a>
+      <a href="/integrations.html">Integrations</a>
+    </nav>
+    <div class="side-foot">
+      <span class="avatar" id="side-initials">··</span>
+      <span><strong>Shopify</strong><small id="side-sync">Checking…</small></span>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <button class="icon-btn" id="toggle-side" aria-label="Toggle sidebar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+      <span class="crumb">Workspace <span class="sep">›</span> <strong>Annual plan</strong></span>
+      <span class="live-badge">LIVE · SHOPIFY</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Look ahead with confidence</p>
+          <h1>A plan for the year ahead.</h1>
+          <p class="sub">Turn your sales targets into a stock and revenue plan.</p>
+        </div>
+        
+      </section>
+
+      <section class="panel plan-settings">
+        <label>Planning year<select id="year"></select><small class="muted" id="year-note"></small></label>
+        <label>Default growth (%)<input id="growth" type="number" step="0.1" min="-100" max="1000" placeholder="0"></label>
+        <label>Product cost (% of net sales)<input id="costpct" type="number" step="0.01" min="0" max="100"><small class="muted" id="costpct-note"></small></label>
+        <label>Landed cost per unit ($)<input id="landed" type="number" step="0.01" min="0"><small class="muted" id="landed-note"></small></label>
+        <button class="btn primary big" id="save-top">Save annual plan</button>
+      </section>
+
+      <section class="cost-cards" id="cards" style="margin-top:20px"></section>
+
+      <div class="callout"><span class="callout-icon">ⓘ</span><div><p>Edit the baseline, sales theme, forecast, stock budget, required units and ordered units. Blank override fields use Auto; entering 0 is an intentional zero. The baseline defaults to last year's Shopify net sales for the same month; actual revenue always comes from Shopify and cannot be edited.</p></div></div>
+
+      <div class="panel pr-panel"><div class="pr-scroll" id="plan"><p class="empty">Loading…</p></div></div>
+      <p class="muted note" id="plan-note">Auto forecast = baseline × (1 + growth). Auto stock budget = forecast × product cost %. Auto units = stock budget ÷ landed cost per unit, rounded up. Manual overrides are kept when defaults change. These are planning scenarios, not guaranteed outcomes.</p>
+      <div class="plan-save"><span class="muted" id="save-status"></span><button class="btn primary big" id="save-bottom">Save annual plan</button></div>
+
+      <footer class="foot"><span>KNOW YOUR NUMBERS</span><span id="foot-right"></span></footer>
+    </main>
+  </div>
+</div>
+<script type="module" src="/annual-plan.js"></script>
+</body>
+</html>
