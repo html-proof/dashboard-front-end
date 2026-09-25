@@ -2,11 +2,16 @@
 // server-side, so the key never reaches the browser and no CORS is needed.
 // Env (Vercel project settings): BACKEND_URL, DASHBOARD_API_KEY.
 const backend = (process.env.BACKEND_URL || '').trim().replace(/\/+$/, '');
-const key = (process.env.DASHBOARD_API_KEY || '').trim();
+const key = (process.env.DASHBOARD_API_KEY || '').trim().replace(/^['"]|['"]$/g, '');
 
 async function proxy(request) {
   if (!backend) return Response.json({ error: 'BACKEND_URL is not set in Vercel.' }, { status: 500 });
+  if (!key) return Response.json({ error: 'DASHBOARD_API_KEY is not set in Vercel (Settings > Environment Variables), then redeploy.' }, { status: 500 });
+  // vercel.json rewrites /api/<rest> to /api/proxy?__path=<rest>; rebuild the original path + query.
   const url = new URL(request.url);
+  const rest = url.searchParams.get('__path') || '';
+  url.searchParams.delete('__path');
+  url.pathname = `/api/${rest}`;
   const headers = { accept: 'application/json' };
   const type = request.headers.get('content-type');
   if (type) headers['content-type'] = type;
