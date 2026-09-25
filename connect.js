@@ -6,4 +6,4 @@ document.querySelector('.connect-form').addEventListener('submit', (event) => {
 });
 
 // Send the OAuth start to the backend when it is hosted separately (Vercel frontend + Railway API).
-if (window.API_BASE) document.querySelector('.connect-form').action = `${window.API_BASE}/shopify/auth`;
+if (window.BACKEND_URL) document.querySelector('.connect-form').action = `${window.BACKEND_URL}/shopify/auth`;
