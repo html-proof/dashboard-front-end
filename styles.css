@@ -271,3 +271,9 @@ small.bad { color: var(--bad); }
 .connect-form input { font: inherit; font-weight: 400; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--text); }
 .connect-form .btn { justify-content: center; }
 .small { font-size: 13px; }
+
+/* Chart type switch + area fill */
+.chart-switch { margin: 0 0 8px; font-size: 13px; }
+.chart-switch button { padding: 4px 10px; }
+.chart .area { fill: var(--teal); opacity: .18; stroke: none; }
+.chart .area.expenses { fill: var(--grey); opacity: .12; }

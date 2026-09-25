@@ -53,7 +53,32 @@ function smoothPath(pts) {
   return d;
 }
 
-function chart(el, points, { value, format, label = (p) => p.period, type = 'line', tick = compactMoney, second = null, secondLabel = '' }) {
+// Chart type switch (Line / Bar / Area) shown above each chart; the choice is remembered per chart in this browser.
+const CHART_TYPES = [['line', 'Line'], ['bar', 'Bar'], ['area', 'Area']];
+const chartArgs = new Map();
+function savedChartType(id) { try { return localStorage.getItem(`chartType.${id}`); } catch { return null; } }
+function chartSwitch(el, current) {
+  let bar = el.previousElementSibling;
+  if (!bar?.classList.contains('chart-switch')) {
+    bar = document.createElement('div');
+    bar.className = 'segmented chart-switch';
+    bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Chart type');
+    bar.innerHTML = CHART_TYPES.map(([t, name]) => `<button type="button" data-type="${t}">${name}</button>`).join('');
+    bar.addEventListener('click', (event) => {
+      const t = event.target.closest('button')?.dataset.type; if (!t) return;
+      try { localStorage.setItem(`chartType.${el.id}`, t); } catch { /* storage unavailable: choice lasts this render only */ }
+      const [points, opts] = chartArgs.get(el); chart(el, points, { ...opts, type: t, forced: true });
+    });
+    el.before(bar);
+  }
+  for (const b of bar.querySelectorAll('button')) b.classList.toggle('on', b.dataset.type === current);
+}
+
+function chart(el, points, opts) {
+  let { value, format, label = (p) => p.period, type = 'line', tick = compactMoney, second = null, secondLabel = '', forced = false } = opts;
+  const { forced: _f, ...base } = opts;
+  if (!forced) { chartArgs.set(el, [points, base]); type = savedChartType(el.id) || type; }
+  if (el.id) chartSwitch(el, type);
   const data = (points || []).filter((p) => isNum(value(p)));
   if (!data.length) { el.innerHTML = `<p class="empty">${NO_DATA}</p>`; return; }
   const W = 820; const H = el.classList.contains('small') ? 180 : 280; const pad = { l: 56, r: 16, t: 14, b: 30 };
@@ -73,8 +98,11 @@ function chart(el, points, { value, format, label = (p) => p.period, type = 'lin
   let marks;
   if (type === 'bar') {
     const w = Math.max(3, Math.min(90, (plotW / data.length) * 0.6));
-    marks = data.map((p, i) => `<rect class="bar" rx="2" x="${x(i) - w / 2}" y="${y(values[i])}" width="${w}" height="${Math.max(0, y(min) - y(values[i]))}"><title>${esc(label(p))}: ${esc(format(values[i]))}</title></rect>`).join('');
-  } else if (data.length === 1) {
+    const rect = (v, bx, bw, cls, p, name) => `<rect class="bar ${cls}" rx="2" x="${bx}" y="${Math.min(y(v), y(Math.max(min, 0)))}" width="${bw}" height="${Math.max(isNum(v) && v !== 0 ? 1 : 0, Math.abs(y(Math.max(min, 0)) - y(v)))}"><title>${esc(label(p))}${name ? ` · ${esc(name)}` : ''}: ${esc(format(v))}</title></rect>`;
+    marks = hasSecond
+      ? data.map((p, i) => rect(values[i], x(i) - w / 2, w / 2 - 1, '', p, '') + (isNum(seconds[i]) ? rect(seconds[i], x(i) + 1, w / 2 - 1, 'expenses', p, secondLabel) : '')).join('')
+      : data.map((p, i) => rect(values[i], x(i) - w / 2, w, '', p, '')).join('');
+  } else if (data.length === 1 && hasSecond) {
     // One day has no line to draw: show the day as side-by-side bars (net sales vs expenses) with value labels.
     const w = 90; const gap = 14; const cx = x(0);
     const bar = (v, bx, cls, name) => `<rect class="bar ${cls}" rx="3" x="${bx}" y="${Math.min(y(v), y(0))}" width="${w}" height="${Math.max(1, Math.abs(y(0) - y(v)))}"><title>${esc(name)}: ${esc(format(v))}</title></rect><text class="axis bar-value" x="${bx + w / 2}" y="${Math.min(y(v), y(0)) - 6}" text-anchor="middle">${esc(format(v))}</text>`;
@@ -84,8 +112,11 @@ function chart(el, points, { value, format, label = (p) => p.period, type = 'lin
   } else {
     const pts = values.map((v, i) => [x(i), y(v)]);
     const showPoints = data.length <= 45;
-    const expenses = hasSecond ? `<path class="line expenses" d="${smoothPath(seconds.map((v, i) => [x(i), y(isNum(v) ? v : 0)]))}"/>` : '';
-    marks = `${expenses}<path class="line" d="${smoothPath(pts)}"/>${data.map((p, i) => `<circle class="point" cx="${pts[i][0]}" cy="${pts[i][1]}" r="${showPoints ? 4 : 8}" ${showPoints ? '' : 'fill="transparent" stroke="none"'}><title>${esc(label(p))}: ${esc(format(values[i]))}${hasSecond ? ` · ${esc(secondLabel)} ${esc(format(seconds[i]))}` : ''}</title></circle>`).join('')}`;
+    const secPts = hasSecond ? seconds.map((v, i) => [x(i), y(isNum(v) ? v : 0)]) : [];
+    const base0 = y(Math.max(min, 0));
+    const fill = (ps, cls) => (type === 'area' && ps.length > 1 ? `<path class="area ${cls}" d="${smoothPath(ps)} L ${ps[ps.length - 1][0]} ${base0} L ${ps[0][0]} ${base0} Z"/>` : '');
+    const expenses = hasSecond ? `${fill(secPts, 'expenses')}<path class="line expenses" d="${smoothPath(secPts)}"/>` : '';
+    marks = `${fill(pts, '')}${expenses}<path class="line" d="${smoothPath(pts)}"/>${data.map((p, i) => `<circle class="point" cx="${pts[i][0]}" cy="${pts[i][1]}" r="${showPoints ? 4 : 8}" ${showPoints ? '' : 'fill="transparent" stroke="none"'}><title>${esc(label(p))}: ${esc(format(values[i]))}${hasSecond ? ` · ${esc(secondLabel)} ${esc(format(seconds[i]))}` : ''}</title></circle>`).join('')}`;
   }
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="chart">
     ${ticks.map((t) => `<line class="grid-line" x1="${pad.l}" x2="${W - pad.r}" y1="${y(t)}" y2="${y(t)}"/><text class="axis" x="${pad.l - 8}" y="${y(t) + 4}" text-anchor="end">${esc(tick(t))}</text>`).join('')}
