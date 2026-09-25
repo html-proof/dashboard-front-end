@@ -18,7 +18,7 @@ const status = (value) => (value ? `<span class="badge">${esc(value.replace(/_/g
 
 async function api(path, init = {}) {
   const key = sessionStorage.getItem('dashboardKey');
-  const response = await fetch(path, { ...init, headers: key ? { authorization: `Bearer ${key}` } : {} });
+  const response = await fetch((window.API_BASE || "") + path, { ...init, headers: key ? { authorization: `Bearer ${key}` } : {} });
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && body.category === 'dashboard_auth') {
     const entered = prompt('Dashboard API key');

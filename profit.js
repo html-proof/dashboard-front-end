@@ -21,7 +21,7 @@ const periodLabel = (p) => {
 
 async function api(path) {
   const key = sessionStorage.getItem('dashboardKey');
-  const response = await fetch(path, { headers: key ? { authorization: `Bearer ${key}` } : {} });
+  const response = await fetch((window.API_BASE || "") + path, { headers: key ? { authorization: `Bearer ${key}` } : {} });
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && body.category === 'dashboard_auth') {
     const entered = prompt('Dashboard API key');

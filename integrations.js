@@ -9,7 +9,7 @@ let editing = null;
 
 async function api(path, init = {}) {
   const key = sessionStorage.getItem('dashboardKey');
-  const response = await fetch(path, { ...init, headers: { ...(init.body ? { 'content-type': 'application/json' } : {}), ...(key ? { authorization: `Bearer ${key}` } : {}) } });
+  const response = await fetch((window.API_BASE || "") + path, { ...init, headers: { ...(init.body ? { 'content-type': 'application/json' } : {}), ...(key ? { authorization: `Bearer ${key}` } : {}) } });
   // Guard against HTML error pages (e.g. a proxy or an old server) so users never see a raw JSON parse error.
   const body = /json/.test(response.headers.get('content-type') || '') ? await response.json().catch(() => ({})) : {};
   if (response.status === 401 && body.category === 'not_signed_in') { location.href = '/connect.html'; return new Promise(() => {}); }
@@ -28,7 +28,7 @@ function renderShopify(s) {
       <div><h2><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.2-8 9-4.6-.8-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg> Shopify · ${esc(s.name || s.shop)}</h2><p class="muted">${esc(s.domain)}</p></div>
       <span class="chip ${s.connected ? 'good' : ''}">${s.connected ? `Connected · ${sync ? `last sync ${esc(when(sync))}` : 'first sync running'}` : 'Not connected'}</span>
     </div>
-    ${s.connected ? '' : `<div class="int-shop-body"><a class="btn primary" href="/shopify/auth?shop=${encodeURIComponent(s.shop)}">Connect Shopify</a></div>`}`;
+    ${s.connected ? '' : `<div class="int-shop-body"><a class="btn primary" href="${window.API_BASE || ""}/shopify/auth?shop=${encodeURIComponent(s.shop)}">Connect Shopify</a></div>`}`;
 }
 
 function card(i) {

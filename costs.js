@@ -16,7 +16,7 @@ function headers(json) {
 }
 
 async function api(path, init = {}) {
-  const response = await fetch(path, { ...init, headers: headers(Boolean(init.body)) });
+  const response = await fetch((window.API_BASE || "") + path, { ...init, headers: headers(Boolean(init.body)) });
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && body.category === 'dashboard_auth') {
     const entered = prompt('Dashboard API key');

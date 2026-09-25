@@ -15,7 +15,7 @@ const METHOD_NOTE = {
 
 async function api(path, init = {}) {
   const key = sessionStorage.getItem('dashboardKey');
-  const response = await fetch(path, { ...init, headers: { ...(init.body ? { 'content-type': 'application/json' } : {}), ...(key ? { authorization: `Bearer ${key}` } : {}) } });
+  const response = await fetch((window.API_BASE || "") + path, { ...init, headers: { ...(init.body ? { 'content-type': 'application/json' } : {}), ...(key ? { authorization: `Bearer ${key}` } : {}) } });
   const body = await response.json().catch(() => ({}));
   if (response.status === 401 && body.category === 'dashboard_auth') {
     const entered = prompt('Dashboard API key');
