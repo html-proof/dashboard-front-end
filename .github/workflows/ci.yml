@@ -1,0 +1,27 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: JavaScript syntax check
+        run: for f in *.js; do node --check "$f" || exit 1; done
+      - name: Check HTML references resolve
+        run: |
+          missing=0
+          for html in *.html; do
+            for ref in $(grep -oE '(src|href)="[^"#?]+\.(js|css)"' "$html" | sed -E 's/.*="([^"]+)"/\1/' | grep -v '^http'); do
+              if [ ! -f "${ref#/}" ]; then echo "::error file=$html::missing $ref"; missing=1; fi
+            done
+          done
+          exit $missing
